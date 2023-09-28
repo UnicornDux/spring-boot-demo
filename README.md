@@ -20,6 +20,9 @@
 
 ## 项目简介
 
+**本仓库是 基于 [spring-boot-demo](https://github.com/xkcoding/spring-boot-demo) 作为基础，进行了修改使用**
+
+
 `spring boot demo` 是一个用来深度学习并实战 `spring boot` 的项目，目前总共包含 **`66`** 个集成demo，已经完成 **`55`** 个。
 
 该项目已成功集成
