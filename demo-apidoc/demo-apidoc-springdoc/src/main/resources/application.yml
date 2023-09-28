@@ -5,4 +5,4 @@ server:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-  packages-to-scan: com.xkcoding.swagger.controller
+  packages-to-scan: com.xkcoding.springdoc.controller

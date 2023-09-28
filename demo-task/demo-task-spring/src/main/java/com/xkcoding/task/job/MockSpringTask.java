@@ -63,8 +63,4 @@ public class MockSpringTask {
         log.info("【job3】开始执行：{}", DateUtil.formatDateTime(new Date()));
         TimeUnit.MILLISECONDS.sleep(2000);
     }
-
-
-
-
 }
