@@ -17,4 +17,9 @@
     <java.version>17</java.version>
   </properties>
 
+  <modules>
+    <module>demo-websocket-spring</module>
+    <module>demo-websocket-socketio</module>
+  </modules>
+
 </project>

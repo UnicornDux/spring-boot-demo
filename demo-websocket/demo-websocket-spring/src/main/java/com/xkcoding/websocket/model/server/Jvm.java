@@ -120,6 +120,6 @@ public class Jvm {
 
     public String getRunTime() {
         long startTime = ManagementFactory.getRuntimeMXBean().getStartTime();
-        return DateUtil.formatBetween(DateUtil.current(false) - startTime);
+        return DateUtil.formatBetween(DateUtil.current() - startTime);
     }
 }
