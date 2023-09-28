@@ -13,13 +13,20 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 /**
  * <p>
  * 定时任务配置，配置线程池，使用不同线程执行任务，提升效率
+ * ------------------------------------------------------------------
+ *  > 定时任务的线程池配置，默认 Spring 定时任务为单线程执行
+ *  > 配置定时任务，Spring 为我们提供了多种方式，
+ *     - 可以在程序中构建 ScheduleExecutorService Bean 对象
+ *     - 实现 SchedulingConfigurer 接口, 在 configureTasks 配置方法中注入线程池
+ *     - 在配置文件中配置线程池参数
  * </p>
  *
  * @author yangkai.shen
  * @date Created in 2018-11-22 19:02
  */
-@EnableScheduling
-@Configuration
+
+// @EnableScheduling
+// @Configuration
 public class TaskAutoConfiguration implements SchedulingConfigurer {
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {

@@ -27,6 +27,8 @@
     <module>demo-workflow</module>
     <module>demo-package</module>
     <module>demo-others</module>
+    <module>demo-tool</module>
+    <module>demo-tool/demo-tool-easyexcel</module>
   </modules>
   <packaging>pom</packaging>
 
@@ -39,7 +41,7 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <spring.boot.version>3.0.0-M5</spring.boot.version>
+    <spring.boot.version>3.1.2</spring.boot.version>
 
     <mysql.version>8.0.30</mysql.version>
     <hutool.version>5.8.5</hutool.version>

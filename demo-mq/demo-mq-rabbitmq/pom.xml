@@ -12,14 +12,12 @@
 
   <parent>
     <groupId>com.xkcoding</groupId>
-    <artifactId>spring-boot-demo</artifactId>
+    <artifactId>demo-mq</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
+    <java.version>17</java.version>
   </properties>
 
   <dependencies>

@@ -16,5 +16,9 @@
   <properties>
     <java.version>17</java.version>
   </properties>
-
+  <modules>
+    <module>demo-mq-kafka</module>
+    <module>demo-mq-rabbitmq</module>
+    <module>demo-mq-rocketmq</module>
+  </modules>
 </project>
