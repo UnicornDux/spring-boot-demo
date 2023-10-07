@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <title>服务控制台</title>
+  <link type="text/css" rel="stylesheet" th:href="@{/static/css/style.css}" />
+<!--  <link type="text/css" rel="stylesheet" href="../static/css/style.css" />-->
+  <script type="text/javascript" th:src="@{/static/js/jquery-1.11.1.min.js}"></script>
+<!--  <script type="text/javascript" src="../static/js/jquery-1.11.1.min.js"></script>-->
+</head>
+
+<body>
+  <div class="command-head">
+    <div class="command-head-left">
+      <label for="text">消息:</label>
+      <input id="text" type="text" name="message" />
+      <button onclick="send()">发送消息</button>
+      <button onclick="closeWebSocket()">关闭WebSocket连接</button>
+      <!--<button onclick="getData()">点击获取数据</button> -->
+    </div>
+    <div class="command-head-right">
+      <span style="margin-right: 10px">
+        <img th:src="@{/static/images/avatar.jpg}" alt="头像" />
+      </span>
+      <div style="display: flex">
+        <p>Welcome | </p>&nbsp;&nbsp;<h4 th:text="${userId}"></h4>
+        <input th:value="${userId}" id="userId" type="hidden">
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="main">
+    <div class="sidebar">
+      <ul>
+        <li>
+          <span>🛢️ 后端服务</span>
+          <hr />
+          <div class="branch">
+            <label>选择环境 : </label>
+            <select class="branch-select" name="digital-back">
+              <option value="dev">dev</option>
+              <option value="aliyun">aliyun</option>
+              <option value="prod">prod</option>
+              <option value="beijing">beijing</option>
+              <option value="preview">preview</option>
+            </select>
+          </div>
+          <span>
+            <button onclick="runApp('digital-back')" data='deploy'>发布</button>
+            <button onclick="runApp('digital-back')" data='restart'>重启</button>
+            <button onclick="runApp('digital-back')" data='stop'>停止</button>
+          </span>
+        </li>
+        <li>
+          <span>💻 前端Web</span>
+          <hr />
+          <div class="branch">
+            <label>选择环境 : </label>
+            <select class="branch-select" name="digital-web">
+              <option value="dev">dev</option>
+              <option value="aliyun">aliyun</option>
+              <option value="prod">prod</option>
+              <option value="beijing">beijing</option>
+              <option value="preview">preview</option>
+            </select>
+          </div>
+          <span>
+            <button onclick="runApp('digital-web')">发布</button>
+          </span>
+        </li>
+        <li>
+          <span>📱 前端App</span>
+          <hr />
+          <div class="branch">
+            <label>选择环境 : </label>
+            <select class="branch-select" name="digital-app">
+              <option value="dev">dev</option>
+              <option value="aliyun">aliyun</option>
+              <option value="prod">prod</option>
+              <option value="beijing">beijing</option>
+              <option value="preview">preview</option>
+            </select>
+          </div>
+          <span>
+            <button onclick="runApp('digital-app')">发布</button>
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="message" id="message"></div>
+  </div>
+</body>
+<script type="text/javascript">
+  let websocket = null;
+  let div = document.getElementById('message')
+  //判断当前浏览器是否支持WebSocket
+  if ('WebSocket' in window) {
+    //改成你的地址
+    var userId = document.querySelector("#userId").value;
+    console.log("userId: ", userId)
+    websocket = new WebSocket(`ws://127.0.0.1:8080/api/websocket/${userId}`);
+    console.log(websocket.readyState);
+    /**
+     *  websocket 前端的比较成熟的后端实现库:
+     *  > websocket-node (可以实现数据库)
+     *  > socket.io (实现了客户端与服务端)
+     * -------------------------------------------------------
+     * readState 状态有四种:
+     *  > connecting(0)
+     *  > open(1)
+     *  > closing(2)
+     *  > closed(3)
+    */
+  } else {
+    alert('当前浏览器 Not support websocket')
+  }
+
+  //连接发生错误的回调方法
+  websocket.onerror = function () {
+    setMessageInnerHTML("WebSocket连接发生错误");
+  };
+
+  //连接成功建立的回调方法
+  websocket.onopen = function () {
+    setMessageInnerHTML("WebSocket连接成功");
+    console.log(websocket.readyState);
+  }
+
+  //接收到消息的回调方法
+  websocket.onmessage = function (event) {
+    console.log(event);
+    data = handleMessage(event.data);
+    setMessageInnerHTML("> " + data);
+    //setechart()
+  }
+
+  //连接关闭的回调方法
+  websocket.onclose = function () {
+    setMessageInnerHTML("WebSocket连接关闭");
+  }
+
+  //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+  window.onbeforeunload = function () {
+    closeWebSocket();
+  }
+
+  //将消息显示在网页上
+  function setMessageInnerHTML(innerHTML) {
+    let pre = document.createElement("pre");
+    pre.innerText = innerHTML;
+    div.append(pre);
+    div.scrollTop = div.scrollHeight;
+  }
+
+  //关闭WebSocket连接
+  function closeWebSocket() {
+    websocket.close();
+  }
+
+  //发送消息
+  function send() {
+    var message = document.getElementById('text').value;
+    websocket.send('{"msg":"' + message + '"}');
+    setMessageInnerHTML("send server message: " + message);
+  }
+  // 处理收到的消息
+  function handleMessage(message) {
+    if ((/^\{.*}$/).test(message)) {
+      let data = JSON.parse(message).msg;
+      return data;
+    } else {
+      return message;
+    }
+  }
+</script>
+
+<script>
+  const backEnv = ['dev', 'prod', 'aliyun', 'preview', 'beijing']
+  const webEnv = ['dev', 'prod', 'aliyun', 'preview', 'beijing']
+  const appEnv = ['dev', 'prod', 'aliyun', 'preview', 'beijing']
+  const appList = ['digital-back', 'digital-web', 'digital-app']
+  function getData() {
+    $.ajax({
+      url: `http://localhost:8080/api/cors`,
+      method: "get"
+    }).then((data) => {
+      console.log(data);
+    })
+  }
+  function runApp(data) {
+    let application;
+    let environment;
+    let operation;
+    div.innerHTML = "";
+    if (!appList.includes(data)) {
+      alert("非法参数");
+      return;
+    }
+    if (data === "digital-back") {
+      const back = document.querySelector("[name='digital-back']");
+      if (back.value && backEnv.includes(back.value)) {
+        environment = back.value;
+      }
+    } else if (data === 'digital-web') {
+      const web = document.querySelector("[name='digital-web']");
+      if (web.value && webEnv.includes(web.value)) {
+        environment = web.value;
+      }
+    } else if (data === 'digital-app') {
+      const app = document.querySelector("[name='digital-app']");
+      if (app.value && appEnv.includes(app.value)) {
+        environment = app.value;
+      }
+    }
+    if (!environment) {
+      alert("请先选择一个分支");
+      return;
+    }
+    if (event.target.getAttribute('data')) {
+      operation = event.target.getAttribute("data");
+    }
+    application = data;
+    const param = {
+      application,
+      environment,
+      operation
+
+    }
+    fetch(`/ops/runApp/${userId}`, {
+      header: {
+        "content-type": "application/json;charset=utf-8;"
+      },
+      method: "POST",
+      data: JSON.stringify(param)
+    })
+      .then(res => res.json())
+      .then(json => alert(json.msg))
+      .catch(e => alert(e.message));
+  }
+</script>
+
+</html>

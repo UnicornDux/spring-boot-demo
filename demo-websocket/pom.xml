@@ -20,6 +20,7 @@
   <modules>
     <module>demo-websocket-spring</module>
     <module>demo-websocket-socketio</module>
+    <module>demo-websocket-devops</module>
   </modules>
 
 </project>

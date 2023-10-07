@@ -1,0 +1,31 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+  thymeleaf:
+    enabled: true
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  mvc:
+    static-path-pattern: /static/**
+
+logging:
+  level:
+    web: debug
+
+auto-deploy:
+  app:
+    script: /opt/deploy/bin/run_app.sh
+  web:
+    script: /opt/deploy/bin/run_web.sh
+  back:
+    script: /opt/deploy/bin/run_back.sh
+

@@ -28,7 +28,7 @@
     <module>demo-package</module>
     <module>demo-others</module>
     <module>demo-tool</module>
-    <module>demo-tool/demo-tool-easyexcel</module>
+    <module>demo-dubbo</module>
   </modules>
   <packaging>pom</packaging>
 

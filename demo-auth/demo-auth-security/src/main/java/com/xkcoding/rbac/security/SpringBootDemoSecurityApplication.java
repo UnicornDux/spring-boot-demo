@@ -1,4 +1,4 @@
-package com.xkcoding.websocket.socketio;
+package com.xkcoding.rbac.security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,12 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * </p>
  *
  * @author yangkai.shen
- * @date Created in 2018-12-12 13:59
+ * @date Created in 2018-12-10 11:28
  */
 @SpringBootApplication
-public class SpringBootDemoWebsocketSocketioApplication {
+public class SpringBootDemoSecurityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootDemoWebsocketSocketioApplication.class, args);
+        SpringApplication.run(SpringBootDemoSecurityApplication.class, args);
     }
 }

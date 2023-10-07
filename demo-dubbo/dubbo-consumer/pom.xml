@@ -9,12 +9,11 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>dubbo-provider</artifactId>
+  <artifactId>dubbo-consumer</artifactId>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
   </properties>
 
   <dependencies>
@@ -55,7 +54,7 @@
   </dependencies>
 
   <build>
-    <finalName>dubbo-provider</finalName>
+    <finalName>dubbo-consumer</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
