@@ -1,8 +1,8 @@
 package com.xkcoding.rbac.security.payload;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 
 /**
  * <p>

@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -28,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(CustomConfig.class)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
     @Autowired
     private CustomConfig customConfig;
 
@@ -57,35 +58,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(encoder());
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         // @formatter:off
         http.cors()
-                // 关闭 CSRF
-                .and().csrf().disable()
-                // 登录行为由自己实现，参考 AuthController#login
-                .formLogin().disable()
-                .httpBasic().disable()
-
+            // 关闭 CSRF
+            .and().csrf().disable()
+            // 登录行为由自己实现，参考 AuthController#login
+            .formLogin().disable()
+            .httpBasic().disable()
                 // 认证请求
                 .authorizeRequests()
                 // 所有请求都需要登录访问
-                .anyRequest()
+            .anyRequest()
                 .authenticated()
-                // RBAC 动态 url 认证
-                .anyRequest()
+            // RBAC 动态 url 认证
+            .anyRequest()
                 .access("@rbacAuthorityService.hasPermission(request,authentication)")
 
-                // 登出行为由自己实现，参考 AuthController#logout
-                .and().logout().disable()
-                // Session 管理
-                .sessionManagement()
+            // 登出行为由自己实现，参考 AuthController#logout
+            .and()
+                .logout().disable()
+            // Session 管理
+            .sessionManagement()
                 // 因为使用了JWT，所以这里不管理Session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                // 异常处理
-                .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+            // 异常处理
+            .and()
+                .exceptionHandling(Customizer.withDefaults())
+                .accessDeniedHandler(accessDeniedHandler);
         // @formatter:on
 
         // 添加自定义 JWT 过滤器

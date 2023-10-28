@@ -11,6 +11,7 @@ import com.xkcoding.rbac.security.model.Role;
 import com.xkcoding.rbac.security.repository.PermissionDao;
 import com.xkcoding.rbac.security.repository.RoleDao;
 import com.xkcoding.rbac.security.vo.UserPrincipal;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,6 @@ import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondit
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

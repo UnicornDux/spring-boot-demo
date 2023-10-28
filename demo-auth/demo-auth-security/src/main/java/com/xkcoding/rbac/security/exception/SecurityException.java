@@ -4,6 +4,7 @@ import com.xkcoding.rbac.security.common.BaseException;
 import com.xkcoding.rbac.security.common.Status;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
