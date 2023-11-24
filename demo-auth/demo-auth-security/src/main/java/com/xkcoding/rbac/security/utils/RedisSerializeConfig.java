@@ -11,19 +11,19 @@ public class RedisSerializeConfig {
 
   @Bean
   public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-     RedisTemplate<Object, Object> template = new RedisTemplate<>();
-     template.setConnectionFactory(connectionFactory);
-     FastJsonRedisSerializer serializer = new FastJsonRedisSerializer(Object.class);
-     // 使用 StringRedisSerializer 序列化 redis 的 key 值
-     template.setKeySerializer(new StringRedisSerializer());
-     template.setValueSerializer(serializer);
+    RedisTemplate<Object, Object> template = new RedisTemplate<>();
+    template.setConnectionFactory(connectionFactory);
+    FastJsonRedisSerializer serializer = new FastJsonRedisSerializer(Object.class);
+    // 使用 StringRedisSerializer 序列化 redis 的 key 值
+    template.setKeySerializer(new StringRedisSerializer());
+    template.setValueSerializer(serializer);
 
-     // Hash 格式的存储的序列化方式
-     template.setHashKeySerializer(new StringRedisSerializer());
-     template.setHashValueSerializer(serializer);
+    // Hash 格式的存储的序列化方式
+    template.setHashKeySerializer(new StringRedisSerializer());
+    template.setHashValueSerializer(serializer);
 
-     template.afterPropertiesSet();
+    template.afterPropertiesSet();
 
-     return template;
+    return template;
   }
 }

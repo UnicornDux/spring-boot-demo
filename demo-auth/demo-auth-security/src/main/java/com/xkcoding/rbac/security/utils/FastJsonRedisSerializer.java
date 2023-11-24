@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 默认情况下的模板只能支持RedisTemplate<String, String>，也就是只能存入字符串，因此支持序列化
  * 当我们存入对象的时候，我们需要实现 RedisSerializer 接口，因此在 Redis 序列化其他对象的时候调用
+ *
  * @param <T>
  */
 public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
@@ -31,11 +32,12 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
   @Override
   public byte[] serialize(T o) throws SerializationException {
-    if (o == null)  {
+    if (o == null) {
       return new byte[0];
     }
     return JSON.toJSONString(o, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
   }
+
   @Override
   public T deserialize(byte[] bytes) throws SerializationException {
     if (bytes == null || bytes.length < 1) {
